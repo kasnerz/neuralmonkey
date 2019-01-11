@@ -88,18 +88,22 @@ def from_wordlist(path: str,
                 line_number += 1
                 continue
 
+            # if contains_frequencies:
+            #     info = line.split("\t")
+            #     if len(info) != 2:
+            #         raise ValueError(
+            #             "Vocabulary file {}:{}: line does not have two columns"
+            #             .format(path, line_number))
+            #     vocabulary.add_word(info[0], int(info[1]))
+            # else:
+            #     if "\t" in line:
+            #         warn("Vocabulary file {}:{}: line contains a tabulator"
+            #              .format(path, line_number))
+            #     vocabulary.add_word(line)
+            
             if contains_frequencies:
                 info = line.split("\t")
-                if len(info) != 2:
-                    raise ValueError(
-                        "Vocabulary file {}:{}: line does not have two columns"
-                        .format(path, line_number))
-                vocabulary.add_word(info[0], int(info[1]))
-            else:
-                if "\t" in line:
-                    warn("Vocabulary file {}:{}: line contains a tabulator"
-                         .format(path, line_number))
-                vocabulary.add_word(line)
+                vocabulary.add_word(info[0])
             line_number += 1
 
     log("Vocabulary from wordlist loaded, containing {} words"

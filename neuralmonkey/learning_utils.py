@@ -390,7 +390,7 @@ def run_on_dataset(tf_manager: TensorFlowManager,
 
     # Check output series lengths.
     for series_id, data in result_data.items():
-        if len(data) != dataset_len:
+        if data.shape[1] != dataset_len:
             warn("Output '{}' for dataset '{}' has length {}, but input "
                  "dataset size is {}".format(series_id, dataset.name,
                                              len(data), dataset_len))

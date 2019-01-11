@@ -69,6 +69,7 @@ class TransformerEncoder(ModelPart, TemporalStatefulWithOutput):
                  ff_hidden_size: int,
                  depth: int,
                  n_heads: int,
+                 decode_layer_index: int = None,
                  dropout_keep_prob: float = 1.0,
                  attention_dropout_keep_prob: float = 1.0,
                  target_space_id: int = None,
@@ -123,6 +124,7 @@ class TransformerEncoder(ModelPart, TemporalStatefulWithOutput):
         self.use_positional_encoding = use_positional_encoding
         self.input_for_cross_attention = input_for_cross_attention
         self.n_cross_att_heads = n_cross_att_heads
+        self.decode_layer_index = decode_layer_index or self.depth
 
         if self.depth <= 0:
             raise ValueError("Depth must be a positive integer.")
@@ -315,7 +317,7 @@ class TransformerEncoder(ModelPart, TemporalStatefulWithOutput):
 
     @tensor
     def temporal_states(self) -> tf.Tensor:
-        return self.layer(self.depth).temporal_states
+        return self.layer(self.decode_layer_index).temporal_states
 
     @tensor
     def temporal_mask(self) -> tf.Tensor:
